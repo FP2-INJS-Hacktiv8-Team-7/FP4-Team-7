@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit",
-    "db:create:test": "NODE_ENV=test npx sequelize db:create",
-    "db:migrate:test": "NODE_ENV=test npx sequelize db:migrate"
+    "test": "cross-env NODE_ENV=test npx jest --runInBand --detectOpenHandles --forceExit",
+    "db:create:test": "cross-env NODE_ENV=test npx sequelize db:create",
+    "db:migrate:test": "cross-env NODE_ENV=test npx sequelize db:migrate"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +22,8 @@
     "sequelize": "^6.31.1",
     "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
