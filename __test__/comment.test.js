@@ -50,6 +50,7 @@ describe("Get comments",()=>{
                 expect(res.ok).toEqual(true)
                 expect(res.body).toHaveProperty("comments")
                 expect(typeof res.body.comments).toEqual("object")
+                done()
             })
     })
     it("should send 401 statuscode",(done)=>{
@@ -148,6 +149,43 @@ describe("Delete comments/:commentid",()=>{
                 expect(res.body.name).toEqual("JsonWebTokenError")
                 expect(res.body.message).toEqual("jwt must be provided")
                 done()
+            })
+    })
+    it("should response with 404 comment not found statuscode",(done)=>{
+        request(app)
+            .delete('/comments')
+            .set("token",token)
+            .end(function(err,res){
+                if(err){
+                    done(err)
+                }
+                expect(res.status).toEqual(404)
+                expect(res.notFound).toEqual(true)
+                expect(res.type).toEqual("application/json")
+                expect(res.body).toHaveProperty("code")
+                expect(res.body).toHaveProperty("name")
+                expect(res.body).toHaveProperty("msg")
+                expect(res.body.name).toEqual("Error")
+                expect(res.body.code).toEqual(404)
+                expect(res.body.msg).toEqual("Not found")
+                done()
+            })
+    })
+    it("should response with 404 commentid not found statuscode",(done)=>{
+        request(app)
+            .delete("/comments"+100)
+            .set("token",token)
+            .end(function(err,res){
+                if(err){
+                    done(err)
+                }
+                expect(res.status).toEqual(404)
+                expect(res.type).toEqual("application/json")
+                expect(typeof res.body).toEqual("object")
+                expect(res.body).toHaveProperty("name")
+                expect(res.body).toHaveProperty("devMessage")
+                expect(res.body.name).toEqual("Data not found")
+                
             })
     })
 })
